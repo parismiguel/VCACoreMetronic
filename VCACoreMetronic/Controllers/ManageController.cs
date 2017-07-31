@@ -45,12 +45,12 @@ namespace VCACoreMetronic.Controllers
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Su clave ha sido cambiada"
+                : message == ManageMessageId.SetPasswordSuccess ? "Se ha registrado su clave"
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Se ha registrado su proveedor de verificación en 2 pasos"
+                : message == ManageMessageId.Error ? "Ha ocurrido un error"
+                : message == ManageMessageId.AddPhoneSuccess ? "Se ha agregado su teléfono"
+                : message == ManageMessageId.RemovePhoneSuccess ? "Se ha eliminado su teléfono"
                 : "";
 
             var user = await GetCurrentUserAsync();
@@ -113,7 +113,7 @@ namespace VCACoreMetronic.Controllers
                 return View("Error");
             }
             var code = await _userManager.GenerateChangePhoneNumberTokenAsync(user, model.PhoneNumber);
-            await _smsSender.SendSmsAsync(model.PhoneNumber, "Your security code is: " + code);
+            await _smsSender.SendSmsAsync(model.PhoneNumber, "Su código de seguridad es: " + code);
             return RedirectToAction(nameof(VerifyPhoneNumber), new { PhoneNumber = model.PhoneNumber });
         }
 
@@ -128,7 +128,7 @@ namespace VCACoreMetronic.Controllers
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, true);
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                _logger.LogInformation(1, "User enabled two-factor authentication.");
+                _logger.LogInformation(1, "El usuario ha habilitado la autenticación en 2 pasos");
             }
             return RedirectToAction(nameof(Index), "Manage");
         }
@@ -281,9 +281,9 @@ namespace VCACoreMetronic.Controllers
         public async Task<IActionResult> ManageLogins(ManageMessageId? message = null)
         {
             ViewData["StatusMessage"] =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.AddLoginSuccess ? "The external login was added."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "El acceso externo ha sido eliminado"
+                : message == ManageMessageId.AddLoginSuccess ? "Se ha agregado el acceso externo"
+                : message == ManageMessageId.Error ? "Ha ocurrido un error"
                 : "";
             var user = await GetCurrentUserAsync();
             if (user == null)

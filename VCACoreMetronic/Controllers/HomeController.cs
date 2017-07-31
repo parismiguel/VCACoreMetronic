@@ -15,14 +15,14 @@ namespace VCACoreMetronic.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Conozcanos!";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Estamos para servirlo!";
 
             return View();
         }
